@@ -16,6 +16,7 @@ irm https://raw.githubusercontent.com/huhonduk-glitch/my-claude-setup/main/setup
 | 스킬 | prompt-master | AI 도구별 프롬프트 만들기 | [prompt-master](https://github.com/huhonduk-glitch/prompt-master) |
 | 스킬 | hwpx | 한글(HWPX) 문서 만들기·읽기·고치기 | [hwpxskill](https://github.com/huhonduk-glitch/hwpxskill) |
 | 스킬 | grilling | 계획을 질문으로 꼼꼼히 따지기 | [mattpocock-skills](https://github.com/huhonduk-glitch/mattpocock-skills) |
+| 스킬 | guideline-check · find-topics-lite · shorts-script · first-short-by-hand | 지침 점검 · 쇼츠 소재·대본·첫 편 (시스메이커) | 비공개 저장소 — `gh auth login` 해 둬야 받음 |
 | 플러그인 | superpowers | 질문 → 계획 → 테스트 순서로 개발 | [superpowers](https://github.com/huhonduk-glitch/superpowers) |
 | 플러그인 | document-skills | 엑셀·워드·PPT·PDF | [anthropic-skills](https://github.com/huhonduk-glitch/anthropic-skills) |
 | 플러그인 | ui-ux-pro-max | 화면 스타일·색·글꼴 자료 | [ui-ux-pro-max-skill](https://github.com/huhonduk-glitch/ui-ux-pro-max-skill) |

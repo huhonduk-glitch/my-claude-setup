@@ -25,6 +25,25 @@ if (-not (Test-Path $grill)) {
   Remove-Item -Recurse -Force $tmp
 }
 
+# 시스메이커 스킬 4개 (비공개 저장소라 gh 로그인이 필요)
+$sm = Join-Path $env:TEMP "sysmaker-materials-$(Get-Random)"
+if (Get-Command gh -ErrorAction SilentlyContinue) { gh repo clone "$me/sysmaker-materials" $sm -- --depth 1 }
+if (Test-Path (Join-Path $sm 'sysmaker-shorts-starter')) {
+  $map = @{
+    'guideline-check'     = 'sysmaker-guideline-check\지침점검\.claude\skills\guideline-check'
+    'find-topics-lite'    = 'sysmaker-shorts-starter\.claude\skills\find-topics-lite'
+    'shorts-script'       = 'sysmaker-shorts-starter\.claude\skills\shorts-script'
+    'first-short-by-hand' = 'sysmaker-shorts-starter\.claude\skills\first-short-by-hand'
+  }
+  foreach ($k in $map.Keys) {
+    $dst = Join-Path $skills $k
+    if (-not (Test-Path $dst)) { Copy-Item -Recurse (Join-Path $sm $map[$k]) $dst }
+  }
+  Remove-Item -Recurse -Force $sm
+} else {
+  Write-Host '시스메이커 스킬은 건너뜀: gh auth login 후 다시 실행하세요.' -ForegroundColor Yellow
+}
+
 # 2. 플러그인 (내 GitHub 포크에서)
 Step '플러그인: superpowers, document-skills, ui-ux-pro-max, caveman, taste-skill'
 $plugins = @(
