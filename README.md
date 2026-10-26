@@ -21,6 +21,11 @@ irm https://raw.githubusercontent.com/huhonduk-glitch/my-claude-setup/main/setup
 | 플러그인 | ui-ux-pro-max | 화면 스타일·색·글꼴 자료 | [ui-ux-pro-max-skill](https://github.com/huhonduk-glitch/ui-ux-pro-max-skill) |
 | 플러그인 | caveman | 답을 짧게 해서 사용량 아끼기 (`/caveman` 칠 때만 켜짐) | [caveman](https://github.com/huhonduk-glitch/caveman) |
 | 플러그인 | taste-skill | AI 티 안 나는 디자인 규칙 | [taste-skill](https://github.com/huhonduk-glitch/taste-skill) |
+| 플러그인 | claude-hud | 아래 상태줄에 사용량·진행 상황 | [claude-hud](https://github.com/huhonduk-glitch/claude-hud) |
+| 플러그인 | youtube-agent | 유튜브 대본(`/yt-script`)·제목·쇼츠 등 11개 | [youtube-agent-skill](https://github.com/huhonduk-glitch/youtube-agent-skill) |
+| 플러그인 | frontend-design | 개성 있는 화면 디자인 | 공식 장터 |
+| 플러그인 | context7 | 최신 공식 문서 찾아오기 (라이브러리 이름을 context7 서버로 보냄) | 공식 장터 |
+| 플러그인 | playwright | 진짜 브라우저를 열어 눌러 보며 확인 | 공식 장터 |
 
 hwpx 스킬용으로 **파이썬 3.12 + lxml + python-hwpx**도 함께 설치합니다.
 

@@ -32,11 +32,31 @@ $plugins = @(
   @{ repo = 'anthropic-skills';    id = 'document-skills@anthropic-agent-skills' },
   @{ repo = 'ui-ux-pro-max-skill'; id = 'ui-ux-pro-max@ui-ux-pro-max-skill' },
   @{ repo = 'caveman';             id = 'caveman@caveman' },
-  @{ repo = 'taste-skill';         id = 'taste-skill@taste-skill' }
+  @{ repo = 'taste-skill';         id = 'taste-skill@taste-skill' },
+  @{ repo = 'claude-hud';          id = 'claude-hud@claude-hud' },
+  @{ repo = 'youtube-agent-skill'; id = 'youtube-agent@youtube-agent-skill' }
 )
 foreach ($p in $plugins) {
   claude plugin marketplace add "$me/$($p.repo)"
   claude plugin install $p.id --scope user
+}
+
+# 공식 장터 플러그인
+Step '공식 플러그인: frontend-design, context7, playwright'
+claude plugin marketplace add anthropics/claude-plugins-official
+foreach ($id in 'frontend-design', 'context7', 'playwright') {
+  claude plugin install "$id@claude-plugins-official" --scope user
+}
+
+# claude-hud 상태줄 켜기 (/claude-hud:setup 과 같은 일)
+Step 'claude-hud 상태줄'
+$hud = Get-ChildItem (Join-Path $HOME '.claude\plugins\cache\claude-hud\claude-hud') -Directory -ErrorAction SilentlyContinue |
+  Sort-Object Name | Select-Object -Last 1
+if ($hud -and (Get-Command node -ErrorAction SilentlyContinue)) {
+  $sh = if (Get-Command bash -ErrorAction SilentlyContinue) { 'gitbash' } else { 'powershell' }
+  node (Join-Path $hud.FullName 'scripts\setup.mjs') install --shell $sh
+} else {
+  Write-Host 'Node.js가 없어 상태줄을 못 켰습니다. winget install OpenJS.NodeJS.LTS 후 Claude Code에서 /claude-hud:setup' -ForegroundColor Yellow
 }
 
 # Caveman은 /caveman 을 칠 때만 켜지게
