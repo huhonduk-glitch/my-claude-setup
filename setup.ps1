@@ -44,6 +44,18 @@ if (Test-Path (Join-Path $sm 'sysmaker-shorts-starter')) {
   Write-Host '시스메이커 스킬은 건너뜀: gh auth login 후 다시 실행하세요.' -ForegroundColor Yellow
 }
 
+# 스마트대디 영상 편집 스킬 (비공개 저장소). git 폴더째 받아서 '내 규칙'을 올리고 받을 수 있게
+Step '스킬: smartdaddy-video-edit'
+$vid = Join-Path $skills 'smartdaddy-video-edit'
+if (Test-Path (Join-Path $vid '.git')) { git -C $vid pull --ff-only }
+elseif (Get-Command gh -ErrorAction SilentlyContinue) { gh repo clone "$me/smartdaddy-video-edit" $vid }
+else { Write-Host '영상 편집 스킬은 건너뜀: gh auth login 후 다시 실행하세요.' -ForegroundColor Yellow }
+
+# REA (reverse-engineer-anything 스킬 + rea MCP 서버)
+Step 'REA: reverse-engineer-anything'
+if (Get-Command npx -ErrorAction SilentlyContinue) { npx -y rea-agents@6.7.0 setup --client claude_code --yes }
+else { Write-Host 'Node.js가 없어 REA를 건너뜀: winget install OpenJS.NodeJS.LTS 후 다시 실행하세요.' -ForegroundColor Yellow }
+
 # 2. 플러그인 (내 GitHub 포크에서)
 Step '플러그인: superpowers, document-skills, ui-ux-pro-max, caveman, taste-skill'
 $plugins = @(
@@ -96,9 +108,26 @@ if (Test-Path $py) {
   $py3 = Join-Path (Split-Path $py) 'python3.exe'
   if (-not (Test-Path $py3)) { Copy-Item $py $py3 }
   [Environment]::SetEnvironmentVariable('PYTHONUTF8', '1', 'User')
+  # 영상 편집 스킬용 패키지(받아쓰기·영상) + 모션 카드용 크로미움
+  $vidReq = Join-Path $vid 'scripts\requirements.txt'
+  if (Test-Path $vidReq) {
+    & $py -m pip install --user --quiet -r $vidReq
+    & $py -m playwright install chromium
+  }
 } else {
   Write-Host '파이썬 설치를 확인하지 못했습니다. 터미널을 새로 열고 다시 실행해 보세요.' -ForegroundColor Yellow
 }
+
+# 영상 편집 스킬용 ffmpeg
+if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
+  Step 'ffmpeg'
+  winget install --id Gyan.FFmpeg -e --silent --accept-package-agreements --accept-source-agreements
+}
+
+# 설치 끝 표시: 저장소를 열 때 자동 설치(bootstrap.ps1)가 다시 돌지 않게
+$done = Join-Path $HOME '.claude\.my-claude-setup-done'
+Get-Date -Format s | Set-Content -Encoding ascii $done
+Remove-Item -Force (Join-Path $HOME '.claude\.my-claude-setup-running') -ErrorAction SilentlyContinue
 
 Step '끝. 터미널과 Claude Code를 새로 켜세요.'
 claude plugin list
