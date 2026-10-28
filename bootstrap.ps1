@@ -1,5 +1,6 @@
 # 내 저장소의 .claude/settings.json (SessionStart 훅)이 부른다.
 # 이 컴퓨터에 내 스킬·플러그인이 아직 없으면 setup.ps1을 새 창에서 돌린다. 한 번 끝나면 다시 돌지 않는다.
+[Console]::OutputEncoding = [Text.Encoding]::UTF8
 $me = 'huhonduk-glitch'
 $claude = Join-Path $HOME '.claude'
 if (Test-Path (Join-Path $claude '.my-claude-setup-done')) { exit 0 }
